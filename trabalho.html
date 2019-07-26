@@ -1,0 +1,121 @@
+<meta charset="UTF-8">
+
+<title>Trabalho Javascript</title>
+
+  <link rel="stylesheet" type="text/css" href="css.css">
+
+<form>
+
+  <table align="center">
+
+    <tr>
+
+      <td><h1>Trabalho JavaScript</h1></td>
+
+    </tr>  
+
+  <tr>
+    <td>      
+            <!-- Definindo o "input", limitando a 3 caracteres máximo e fazendo com que a tecla "Enter" o ative -->
+  <input style="text-align: center" size="23" placeholder="Digite um número de 1 a 100." type="text" pattern="\d*" maxlength="3" min="1" max="100" id="campo" onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" required="required"/>
+    </td> 
+  </tr>
+
+  <tr>
+    <td>
+
+  <button type="submit" id="myBtn">Play!</button> <!-- Definindo o que está escrito no "button". -->
+
+    </td>
+  </tr>
+  </table>
+
+</form>
+
+
+<script>
+  
+    function sorteia() {
+
+       return Math.round(Math.random() * 100); //Sorteando um número aleatório de 1 a 100.
+
+    }
+
+    function sorteiaNumeros(quantidade) {      //Função para sortear a quantidade dentro do "array".
+
+        var segredos = [];                     //O array começa vazio e os números são mandados pra dentro dele depois de sorteados.
+
+        var numero = 1;
+
+        while(numero <= quantidade) {
+
+              var numeroAleatorio = sorteia();
+              var achou = false;
+
+                                                //Fazendo com que o zero não conte no Math.random.
+
+              if (numeroAleatorio !== 0) {
+
+                     for(var posicao = 0; posicao < segredos.length; posicao++) { //Posição para ter números únicos.
+
+                           if(segredos[posicao] == numeroAleatorio){  //Definindo um array de "posição", para que os números
+                                                                      //aleatórios de 1 a 100 não sejam repetidos.
+                                achou = true;
+                                break;         
+                           }
+
+                     }
+
+                     if (achou == false) {
+                           segredos.push(numeroAleatorio);  //Adicionando valor ao "array".
+                           numero++;                        //Fazendo com que os números aleatórios não se repitam.
+                     }
+              }
+
+        }
+
+        return segredos;
+
+    }
+
+    var segredos = sorteiaNumeros(10); //Quantidade de números que serão sorteados no "array", e vezes que o while irá fazer o loop.
+
+    console.log(segredos);   //Mostrando uma "cola" ao desenvolvedor para saber quais dos 5 números foram sorteados.
+
+    var input = document.querySelector("input");
+
+    input.focus();           //Fazendo com que após o teste do jogador, o input volte a ser realçado sem precisar ser clicado de novo.
+
+    function verifica() {
+
+      if (input.value.trim() == "") { //Impedindo que o programa funcione com o "input" vazio.
+        return;
+      }
+
+       var achou = false;
+
+       for(var posicao = 0; posicao < segredos.length; posicao++) {
+
+              if(input.value == segredos[posicao]) {
+
+                     alert("VOCÊ ACERTOU MEU CONSAGRADO!!"); //Mensagem do alert pra quando acertar.
+                     achou = true;
+                     break;                //Terminando o programa para caso o jogador tenha acertado.
+              } 
+       }
+
+       if(achou == false) {
+
+              alert("VOCÊ ERROU, TENTE NOVAMENTE!!"); //Mensagem do alert pra quando errar.
+       }
+
+       input.value = "";
+       input.focus();         //Fazendo com que após o teste do jogador, o input volte a ser realçado sem precisar ser clicado de novo.
+
+    }
+
+    var button = document.querySelector("button");
+
+    button.onclick = verifica; //Ao clicar no botão, executar a função verifica.
+
+</script>
